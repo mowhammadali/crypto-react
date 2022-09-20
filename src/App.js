@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React , { useState } from 'react';
+import styled , {ThemeProvider} from 'styled-components';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// Components
+import Landing from './Components/Landing';
+
+// Styles
+import {LightMode , DarkMode} from "./Styles/Themes/Theme";
+import GlobalStyles from './Styles/Global/GlobalStyles';
+
+// Context
+export const ToggleContext = React.createContext();
+
+const App = () => {
+
+    const [toggle , setToggle] = useState(false);
+
+    const handleToggle = () => {
+        setToggle(!toggle);
+    }
+
+    return (
+        <ThemeProvider theme={toggle ? DarkMode : LightMode}>
+            <ToggleContext.Provider value={handleToggle}>
+                    <div>
+                        <GlobalStyles light={toggle}/>
+                        <Landing />
+                    </div>
+            </ToggleContext.Provider>
+        </ThemeProvider>
+    );
+};
 
 export default App;
